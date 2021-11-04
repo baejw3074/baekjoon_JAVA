@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		int total = sc.nextInt();
+		int standard = sc.nextInt();
+		
+		for(int i=1; i<=total; i++) {
+			int num = sc.nextInt();
+			if(num < standard)
+				System.out.print(num + " ");
+		}
+		
+		sc.close();
+	}
+		
+}
