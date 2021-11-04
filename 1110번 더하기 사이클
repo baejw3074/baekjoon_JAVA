@@ -1,0 +1,21 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		int num = sc.nextInt();
+		int count = 0;
+		int b = num;
+		while(true) {
+			int a = (num%10)*10+((num % 10 + num / 10)%10);
+			count +=1;
+			if(a == b)
+				break;
+			num = a;
+		}
+		System.out.println(count);
+		sc.close();
+	}
+		
+}
