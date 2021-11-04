@@ -1,0 +1,16 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args){
+		Scanner sc = new Scanner(System.in);
+		while(sc.hasNextInt()) { // hasNextInt() ->입력이 없으면 반복 종료
+			int a = sc.nextInt();
+			int b = sc.nextInt();
+			
+			System.out.println(a + b);
+		}
+		sc.close();
+	}
+		
+}
