@@ -1,0 +1,32 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int i =0; i<t; i++) {
+			int student_num = sc.nextInt();
+			int[] arr = new int[student_num];
+			for(int j=0; j<student_num; j++) {
+				int score = sc.nextInt();
+				arr[j] = score;
+			}
+			int sum = 0;
+			for(int j=0; j<student_num; j++) {
+				sum = sum + arr[j];
+			}
+			float average =0 ;
+			average = sum/student_num;
+			float count =0 ;
+			for(int j=0; j<student_num; j++) {
+				if(arr[j] > average) {
+					count +=1;
+				}
+			}
+			float rate = 0;
+			rate = count*100/student_num;
+			System.out.println(String.format("%.3f", rate) + "%");
+		}
+		sc.close();
+	}
+}
