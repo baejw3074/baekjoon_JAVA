@@ -1,0 +1,25 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int num = sc.nextInt();
+		int count =0;
+		for(int i=1; i<=num; i++) {
+			if(i<100) {
+				count +=1;
+			}
+			else {
+				int first_gap = 0;
+				int second_gap = 0;
+				first_gap = i/100 - (i/10)%10;
+				second_gap = (i/10)%10 - i%10;
+				if(first_gap == second_gap) {
+					count +=1;
+				}
+			}
+		}
+		System.out.print(count);
+		sc.close();
+	}
+}
