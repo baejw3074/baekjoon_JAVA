@@ -1,0 +1,31 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String str = sc.nextLine(); //문장을 입력받기
+		int count = 0;
+		for(int i=0; i<str.length(); i++) {
+			if(str.charAt(i) == ' ') {
+				count+=1;
+			}
+		}
+		if(str.charAt(0) == ' ') { // 띄어쓰기가 어디에 있는지 파악하여 단어개수 세기
+			if(str.charAt(str.length()-1) == ' ') {
+				System.out.print(count-1);
+			}
+			else {
+				System.out.print(count);
+			}
+		}
+		else {
+			if(str.charAt(str.length()-1) == ' ') {
+				System.out.print(count);
+			}
+			else {
+				System.out.print(count+1);
+			}
+		}
+		sc.close();
+	}
+}
