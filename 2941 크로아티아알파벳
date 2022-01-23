@@ -1,0 +1,36 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String str = sc.next();
+		int count =str.length(); // 전체 문자의 개수에서 크로아티아 문자가 들어가면 개수를 1개씩 빼기
+		for(int i=0; i<str.length(); i++) {
+			if(i-1>=0) {
+				if(str.charAt(i) == '=') {
+					if(str.charAt(i-1) == 'c' || str.charAt(i-1) == 's' || str.charAt(i-1) == 'z') {
+						count -=1;
+					}
+					if(i-2>=0) { // =앞에 z일 경우에는 z앞에 d가 올수도 있으므로 그런 경우 한번더 뺀다.
+						if(str.charAt(i-1) == 'z' && str.charAt(i-2) == 'd') {
+							count -=1;
+						}
+					}
+				}
+				if(str.charAt(i) == '-') {
+					if(str.charAt(i-1) == 'c' || str.charAt(i-1) == 'd') {
+						count -=1;
+					}
+				}
+				if(str.charAt(i) == 'j') {
+					if(str.charAt(i-1) == 'l' || str.charAt(i-1) == 'n') {
+						count -=1;
+					}
+				}
+			}
+			
+		}
+		System.out.print(count);
+		sc.close();
+	}
+}
