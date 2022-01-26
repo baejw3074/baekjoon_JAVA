@@ -1,0 +1,24 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int num = sc.nextInt();
+		int i=1;
+		int count = 1;
+		if(num == 1) {
+			System.out.print(1);
+		}
+		else {
+			while(true) {
+				count = count + 6*(i-1);
+				if(count >= num) {
+					System.out.print(i);
+					break;
+				}
+				i++;
+			}
+		}
+		sc.close();
+	}
+}
