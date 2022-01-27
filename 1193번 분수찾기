@@ -1,0 +1,29 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int num = sc.nextInt();
+		int count = 0;
+		int i=1;
+		while(true) {
+			
+			count = count +i;
+			
+			if(count >=num) {
+				int a = count - num;
+				if(i%2 == 0) {
+					System.out.print((i-a) + "/" + (1+a));
+					break;
+				}
+				else {
+					System.out.print((1+a) + "/" + (i-a));
+					break;
+				}
+				
+			}
+			i++;
+		}
+		sc.close();
+	}
+}
