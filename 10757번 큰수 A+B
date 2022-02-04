@@ -1,0 +1,57 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		String str_1 = sc.next();
+		String str_2 = sc.next();
+		int max_length = Math.max(str_1.length(), str_2.length());
+		int[] arr_1 = new int[max_length+1];
+		int[] arr_2 = new int[max_length+1];
+		for(int i=0; i<str_1.length(); i++) {
+			arr_1[str_1.length()-i-1] = (int)str_1.charAt(i) - '0';
+			
+		}
+		for(int i=0; i<str_2.length(); i++) {
+			arr_2[str_2.length()-i-1] = (int)str_2.charAt(i) - '0';
+		}
+		for(int i=0; i<max_length; i++) {
+			int a = arr_1[i] + arr_2[i];
+			if(a>=10) {
+				arr_1[i] = a%10;
+				arr_1[i+1] = arr_1[i+1] + 1;
+			}
+			else{
+				arr_1[i] = a;
+			}
+		}
+		if(arr_1[max_length] == 0) {
+			for(int i=max_length-1; i>=0; i--) {
+				System.out.print(arr_1[i]);
+			}
+		}
+		else {
+			for(int i=max_length; i>=0; i--) {
+				System.out.print(arr_1[i]);
+			}
+		}
+		
+		sc.close();
+		
+	}
+}
+
+//쉬운 방법
+import java.util.Scanner;
+import java.math.BigInteger;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		BigInteger a = new BigInteger(sc.next());
+		BigInteger b = new BigInteger(sc.next());
+		System.out.print(a.add(b));
+		sc.close();
+		
+	}
+}
