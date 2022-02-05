@@ -1,0 +1,35 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int min_num = sc.nextInt();
+		int max_num = sc.nextInt();
+		int sum = 0;
+		int min = 10001;
+		for(int i=min_num; i<=max_num; i++) {
+			int count = 0;
+			for(int j=1; j<=i; j++) {
+				if(i%j==0) {
+					count +=1;
+				}
+			}
+			if(count == 2) {
+				sum = sum +i;
+				if(min>i) {
+					min = i;
+				}
+			}
+		}
+		if(sum == 0) {
+			System.out.println(-1);
+		}
+		else {
+			System.out.println(sum);
+			System.out.println(min);
+		}
+		
+		sc.close();
+		
+	}
+}
