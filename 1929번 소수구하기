@@ -1,0 +1,26 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int min_num = sc.nextInt();
+		int max_num = sc.nextInt();
+		int[] arr = new int[max_num+1];
+		for(int i=2; i<=max_num; i++) {
+			arr[i] = 1;	
+		}
+		for(int i=2; i*i<=max_num; i++) {
+			for(int j=i+i; j<=max_num; j=j+i) {
+				arr[j] = 0;
+			}
+		}
+		for(int i=min_num; i<=max_num; i++) {
+			if(arr[i] == 1) {
+				System.out.println(i);
+			}
+			
+		}
+		sc.close();
+		
+	}
+}
