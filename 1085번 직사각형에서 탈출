@@ -1,0 +1,71 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int x = sc.nextInt();
+		int y = sc.nextInt();
+		int w = sc.nextInt();
+		int h = sc.nextInt();
+		
+		if(x*2 >= w) {
+			if(y*2>=h) {
+				if(w-x <= h-y) {
+					System.out.print(w-x);
+				}
+				else {
+					System.out.print(h-y);
+				}
+			}
+			else {
+				if(w-x <= y) {
+					System.out.print(w-x);
+				}
+				else {
+					System.out.print(y);
+				}
+			}
+		}
+		else{
+			if(y*2>=h) {
+				if(x <= h-y) {
+					System.out.print(x);
+				}
+				else {
+					System.out.print(h-y);
+				}
+			}
+			else {
+				if(x <= y) {
+					System.out.print(x);
+				}
+				else {
+					System.out.print(y);
+				}
+			}
+		}
+		sc.close();
+		
+	}
+}
+
+
+<다른 방법>
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int x = sc.nextInt();
+		int y = sc.nextInt();
+		int w = sc.nextInt();
+		int h = sc.nextInt();
+		
+		int x_min = Math.min(x, w-x);
+		int y_min = Math.min(y, h-y);
+        
+		System.out.println(Math.min(x_min, y_min));
+		sc.close();
+		
+	}
+}
