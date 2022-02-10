@@ -1,0 +1,14 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		double radius = sc.nextInt();
+		double w_1 = radius * radius * Math.PI;
+		System.out.println(String.format("%.6f", w_1));
+		double w= radius * radius * 2;
+		System.out.print(String.format("%.6f", w));
+		sc.close();
+		
+	}
+}
