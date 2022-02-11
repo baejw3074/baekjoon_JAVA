@@ -1,0 +1,55 @@
+import java.util.Scanner;
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		int t = sc.nextInt();
+		for(int i=0; i<t; i++) {
+			int x1 = sc.nextInt();
+			int y1 = sc.nextInt();
+			int r1 = sc.nextInt();
+			int x2 = sc.nextInt();
+			int y2 = sc.nextInt();
+			int r2 = sc.nextInt();
+		
+			if(x1==x2 && y1 == y2) {
+				if(r1==r2) { // 개수 무한
+					System.out.println(-1);
+					continue;
+				}
+				else { // 중심 같고 반지름 다를 때
+					System.out.println(0);
+					continue;
+				}
+			}
+			
+			double real_length = Math.sqrt((x2-x1) * (x2-x1) + (y2-y1) * (y2-y1)); // 중심거리
+			double length = r2+r1; // 반지름 합
+			if(real_length > length) { // 접점 없을 때
+				System.out.println(0);
+				continue;
+			}
+			if(real_length < length) {
+				if(real_length + r1 == r2 || real_length +r2 == r1) {
+					System.out.println(1);
+					continue;
+				}
+				else if(real_length + r1 < r2 || real_length +r2 < r1) {
+					System.out.println(0);
+					continue;
+				}
+				else {
+					System.out.println(2);
+					continue;
+				}
+			}
+			if(real_length == length) { // 외접할 때 
+				System.out.println(1);
+				continue;
+			}
+			
+		}
+		sc.close();
+		
+	}
+}
