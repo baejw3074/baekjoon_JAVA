@@ -15,7 +15,7 @@ public class Main {
 					System.out.print(arr[i].charAt(k));
 				}
 			}
-			System.out.print("\n");
+			System.out.println();
 			
 		}
 		
