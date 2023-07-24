@@ -23,3 +23,28 @@ public class Main {
 		sc.close();
 	}
 }
+
+//<다른 코드>
+import java.util.Scanner;
+public class Solve {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner sc = new Scanner(System.in);
+		String str = sc.next();
+		
+		int[] arr = new int[26];
+		for(int i=0; i<arr.length; i++) {
+			arr[i] = -1;
+		}
+		for(int i=0; i<str.length(); i++) {
+			if(arr[str.charAt(i) - 97] ==-1) {
+				arr[str.charAt(i) - 97] +=i+1;
+			}
+		}
+		for(int i=0; i<arr.length; i++) {
+			System.out.print(arr[i] + " ");
+		}
+		
+	}
+
