@@ -29,3 +29,15 @@ public class Main {
 		sc.close();
 	}
 }
+
+//<새로 푼 코드>
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String str = sc.nextLine();
+        //sc.next는 단어 기준으로 입력 받고, sc.nextLine은 공백을 포함한 문장을 입력 받는다!
+        String[] arr = str.split(" ");
+        System.out.println(arr.length);
+    }
+}
