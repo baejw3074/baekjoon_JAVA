@@ -17,3 +17,22 @@ public class Main {
 		sc.close();
 	}
 }
+
+//<다른 풀이>
+import java.util.Scanner;
+public class ListTest {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String[] arr = new String[2];
+        for(int i=0; i<2; i++){
+            arr[i] = sc.next();
+            String temp1 = String.valueOf(arr[i].charAt(0));
+            String temp2 = String.valueOf(arr[i].charAt(1));
+            String temp3 = String.valueOf(arr[i].charAt(2));
+            arr[i] = temp3 + temp2 + temp1;
+        }
+        System.out.println(Math.max(Integer.valueOf(arr[0]), Integer.valueOf(arr[1])));
+
+    }
+}
