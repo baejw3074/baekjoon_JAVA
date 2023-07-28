@@ -1,0 +1,28 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        float sum = 0;
+        float sum_study = 0;
+        for(int i=0; i<20; i++){
+            String str = sc.nextLine();
+            String[] arr = str.split(" ");
+            if(arr[2].equals("A+")) arr[2] = "4.5";
+            if(arr[2].equals("A0")) arr[2] = "4.0";
+            if(arr[2].equals("B+")) arr[2] = "3.5";
+            if(arr[2].equals("B0")) arr[2] = "3.0";
+            if(arr[2].equals("C+")) arr[2] = "2.5";
+            if(arr[2].equals("C0")) arr[2] = "2.0";
+            if(arr[2].equals("D+")) arr[2] = "1.5";
+            if(arr[2].equals("D0")) arr[2] = "1.0";
+            if(arr[2].equals("F")) arr[2] = "0.0";
+            if(arr[2].equals("P")){
+                arr[1] = "0.0";
+                arr[2] = "0.0";
+            }
+            sum_study = sum_study + Float.valueOf(arr[1]);
+            sum = sum + Float.valueOf(arr[1]) * Float.valueOf(arr[2]);
+        }
+        System.out.printf("%.6f", (sum / sum_study));
+    }
+}
