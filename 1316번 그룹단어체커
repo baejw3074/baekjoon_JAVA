@@ -30,3 +30,42 @@ public class Main {
 		sc.close();
 	}
 }
+
+<다시 풀기>
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int copy = num;
+        for(int i=0; i<num; i++){
+            String str = sc.next();
+            int count = 0;
+            for(int j=0; j<str.length(); j++){
+                if(count == 1) break;
+                if(j+1<str.length()){
+                    if(str.charAt(j) != str.charAt(j+1)){
+                        if(j+2<str.length()) {
+                            for(int k=j+2; k<str.length(); k++){
+                                if(str.charAt(j) == str.charAt(k)){
+                                    copy--;
+                                    count +=1;
+                                    break;
+
+                                }
+
+                            }
+                        }
+                    }
+                    else{
+                        continue;
+                    }
+                }
+            }
+
+        }
+        System.out.println(copy);
+
+
+    }
+}
