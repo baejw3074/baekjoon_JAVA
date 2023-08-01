@@ -1,0 +1,65 @@
+import java.util.Scanner;
+
+public class Main {
+//    static int[] arr;
+//    public static void woman(int swch){
+//        if(arr[swch-1] == arr[swch+1] && arr[swch-1] == 1){
+//            arr[swch-1] =0;
+//            arr[swch+1] = 0;
+//        }
+//        if(arr[swch-1] == arr[swch+1] && arr[swch-1] == 0){
+//            arr[swch-1] = 1;
+//            arr[swch+1] = 1;
+//        }
+//        if(arr[swch-1] != arr[swch+1]){
+//            return;
+//        }
+//    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int[] arr = new int[num];
+        for(int i=0; i<num; i++){
+            arr[i] = sc.nextInt();
+        }
+        int student = sc.nextInt();
+        for(int i=0; i<student; i++){
+            int man = sc.nextInt();
+            int swch = sc.nextInt();
+            if(swch>=1) {
+                if (man == 1) {
+                    for (int j = 1; swch*j <= num; j++) {
+                        if (arr[swch * j - 1] == 1) {
+                            arr[swch * j - 1] = 0;
+                            continue;
+                        }
+                        if (arr[swch * j - 1] == 0) {
+                            arr[swch * j - 1] = 1;
+                            continue;
+                        }
+                    }
+                }
+                if (man == 2) {
+                    arr[swch - 1] = arr[swch - 1] == 0 ? 1 : 0;
+                    for(int j=1; j<num/2; j++) {
+                        if(swch - 1 + j >= num || swch - 1 - j < 0)
+                            break;
+                        if(arr[swch - 1 - j] == arr[swch - 1 + j]) {
+                            arr[swch - 1 - j] = arr[swch - 1 - j] == 0 ? 1 : 0;
+                            arr[swch - 1 + j] = arr[swch - 1 + j] == 0 ? 1 : 0;
+                        }
+                        else break;
+                    }
+
+                }
+            }
+        }
+        for(int i=0; i<num; i++) {
+            System.out.print(arr[i] + " ");
+            if((i+1) % 20 == 0)
+                System.out.println();
+        }
+
+    }
+}
