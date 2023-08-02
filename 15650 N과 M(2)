@@ -1,0 +1,28 @@
+import java.util.Scanner;
+
+public class Main {
+    static int[] arr;
+    static int num;
+    public static void solve(int count, int start, int b){
+        if(count == b){
+            for(int x:arr){
+                System.out.print(x + " ");
+            }
+            System.out.println();
+            return;
+        }
+        for(int i=start; i<=num; i++){
+            arr[count] = i;
+            solve(count+1, i+1, b);
+        }
+    }
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+
+        num = sc.nextInt();
+        int b = sc.nextInt();
+        arr = new int[b];
+        solve(0, 1, b);
+
+    }
+}
