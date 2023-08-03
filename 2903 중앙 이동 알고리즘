@@ -1,0 +1,24 @@
+import java.util.Scanner;
+
+public class Solving {
+    static int num;
+    static int origin = 2;
+    static double result=0;
+    public static void solve(int count){
+        if(count == num){
+            System.out.println((int)result);
+            return;
+        }
+
+        result = Math.pow((origin*2-1),2);
+        origin = (origin*2-1);
+        solve(count+1);
+    }
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        num = sc.nextInt();
+        solve(0);
+
+    }
+
+}
