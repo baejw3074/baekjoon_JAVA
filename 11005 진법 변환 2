@@ -1,0 +1,26 @@
+import java.util.Scanner;
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int base = sc.nextInt();
+        String str = "";
+        while(num>0){
+            int result = 0;
+            result = num % base;
+            if(result >= 10){
+                str += String.valueOf((char)(result + 55));
+            }
+            else{
+                str += String.valueOf(result);
+            }
+            num = num / base;
+        }
+        String answer = "";
+        for(int i=0; i<str.length(); i++){
+            answer += str.charAt(str.length()-1-i);
+        }
+        System.out.println(answer);
+
+    }
+}
