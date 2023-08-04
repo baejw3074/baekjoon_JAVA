@@ -22,3 +22,24 @@ public class Main {
 		sc.close();
 	}
 }
+
+<다시 풀기>
+import java.util.Scanner;
+
+public class Main_BEE {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int num =sc.nextInt();
+        int result = 1;
+        int count = 0;
+        int i=1;
+        while(num>result){
+            count++;
+            result += 6*i;
+            i++;
+
+        }
+        System.out.println(count+1);
+    }
+}
+
