@@ -27,3 +27,41 @@ public class Main {
 		sc.close();
 	}
 }
+
+<다시 풀기>
+import java.util.Scanner;
+
+public class Main_search {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int i =0;
+        int total = 0;
+        int count = 0;
+
+        while(true){
+            count++;
+            total += i+1;
+            i++;
+
+            if(num == 1){
+                System.out.println("1/1");
+                break;
+            }
+            else{
+                if(num>total && num<=total+i+1){
+                    if((count+1) % 2 == 0){
+                        System.out.println((num-total) + "/" + ((count+1) - (num-total) +1));
+                        break;
+
+                    }
+                    else{
+                        System.out.println(((count+1) - (num-total) +1) + "/" + (num-total));
+                        break;
+                    }
+                }
+            }
+        }
+    }
+}
+
