@@ -1,0 +1,25 @@
+import java.util.Scanner;
+
+public class Main_mf {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int num = sc.nextInt();
+        int k = sc.nextInt();
+        int i=1;
+        int count =0;
+        while(true){
+            if(num<i){
+                System.out.println(0);
+                break;
+            }
+            if(num % i == 0){
+                count++;
+            }
+            if(k==count){
+                System.out.println(i);
+                break;
+            }
+            i++;
+        }
+    }
+}
