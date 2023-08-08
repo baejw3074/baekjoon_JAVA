@@ -33,3 +33,36 @@ public class Main {
 		
 	}
 }
+
+<다시 풀기>
+import java.util.Scanner;
+
+public class Main_top {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int sum = 0;
+        int min = 0;
+
+        for(int i=n; i>=m; i--){
+            int cnt = 0;
+            for(int j=1; j<=Math.sqrt(i); j++){
+                if(i%j==0){
+                    cnt++;
+                }
+            }
+            if(cnt == 1 && i!=1){
+                sum += i;
+                min = i;
+            }
+        }
+        if(sum == 0){
+            System.out.println(-1);
+        }
+        if(sum != 0){
+            System.out.println(sum);
+            System.out.println(min);
+        }
+    }
+}
