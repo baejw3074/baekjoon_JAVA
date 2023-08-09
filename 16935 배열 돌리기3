@@ -1,0 +1,144 @@
+import java.util.Scanner;
+
+public class Main_rotation3 {
+    static int n; // 배열 크기
+    static int m;
+    static int r; // 반복 횟수
+    static int[][] arr; //배열
+    static int num; // 연산 번호
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+
+        n = sc.nextInt();
+        m = sc.nextInt();
+        r = sc.nextInt();
+        arr = new int[n][m];
+
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                arr[i][j] = sc.nextInt();
+            }
+        }
+
+        for(int i=0; i<r; i++){ // r번만큼 반복
+            num = sc.nextInt();
+
+            switch(num){
+                case 1 : sw1(); // 상하 반전
+                break;
+                case 2 : sw2(); // 좌우 반전
+                break;
+                case 3 : sw3(); // 오른쪽 90도 회전
+                break;
+                case 4 : sw4(); // 왼쪽 90도 회전
+                break;
+                case 5 : sw5(); // 배열 부분 이동 시계방향
+                break;
+                case 6 : sw6(); // 배열 부분 이동 반시계방향
+                break;
+            }
+        }
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                System.out.print(arr[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+    }
+
+    public static void sw1(){ // 상하 반전
+        int[][] result = new int[n][m];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                result[n-i-1][j] = arr[i][j]; // x축은 바뀌지 않고 배열의 뒤부터 입력
+            }
+        }
+        arr = result;
+    }
+    public static void sw2(){ // 좌우 반전
+        int[][] result = new int[n][m];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                result[i][m-j-1] = arr[i][j]; // y축은 바뀌지 않고 배열의 오른쪽부터 입력
+            }
+        }
+        arr=result;
+    }
+    public static void sw3(){ // 오른쪽 90도 회전
+        int[][] result = new int[m][n]; // 크기 바꿔서
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                result[j][n-i-1] = arr[i][j];
+            }
+        }
+        int temp = n; // 회전 후 배열의 크기 변환
+        n = m;
+        m = temp;
+
+        arr = result; // 회전을 여러번 수행할 경우 저장하기 위해
+    }
+    public static void sw4(){ // 왼쪽 90도 회전
+        int[][] result = new int[m][n];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<m; j++){
+                result[m-j-1][i] = arr[i][j];
+            }
+        }
+        int temp = n;
+        n = m;
+        m = temp;
+
+        arr = result;
+    }
+    public static void sw5(){ // 배열 부분 이동 시계방향
+        int[][] result = new int[n][m];
+
+        for(int i=0; i<n/2; i++){
+            for(int j=0; j<m/2; j++){
+                result[i][j+m/2] = arr[i][j]; //1구역을 2구역으로 이동
+            }
+        }
+        for(int i=0; i<n/2; i++){
+            for(int j=m/2; j<m; j++){
+                result[i+n/2][j] = arr[i][j]; // 2구역을 3구역으로 이동
+            }
+        }
+        for(int i=n/2; i<n; i++){
+            for(int j=m/2; j<m; j++){
+                result[i][j-m/2] = arr[i][j]; // 3구역을 4구역으로 이동
+            }
+        }
+        for(int i=n/2; i<n; i++){
+            for(int j=0; j<m/2; j++){
+                result[i-n/2][j] = arr[i][j]; // 4구역을 1구역으로 이동
+            }
+        }
+        arr = result;
+    }
+    public static void sw6(){ // 배열 부분 이동 반시계방향
+        int[][] result = new int[n][m];
+
+        for(int i=0; i<n/2; i++){
+            for(int j=0; j<m/2; j++){
+                result[i+n/2][j] = arr[i][j]; // 1구역을 4구역으로 이동
+            }
+        }
+        for(int i=0; i<n/2; i++){
+            for(int j=m/2; j<m; j++){
+                result[i][j-m/2] = arr[i][j]; // 2구역을 1구역으로 이동
+            }
+        }
+        for(int i=n/2; i<n; i++){
+            for(int j=m/2; j<m; j++){
+                result[i-n/2][j] = arr[i][j]; // 3구역을 2구역으로 이동
+            }
+        }
+        for(int i=n/2; i<n; i++){
+            for(int j=0; j<m/2; j++){
+                result[i][j+m/2] = arr[i][j]; // 4구역을 3구역으로 이동
+            }
+        }
+        arr = result;
+    }
+}
