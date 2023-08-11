@@ -1,0 +1,77 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+class Location{
+    int x;
+    int y;
+    Location(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+    public int minus(Location l){
+        return Math.abs(this.x - l.x) + Math.abs(this.y - l.y);
+    }
+}
+public class Main_chicken {
+    static int m;
+    static int[] comb;
+    static ArrayList<Location> home;
+    static ArrayList<Location> chicken;
+    static int result;
+
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        int[][] arr = new int[n][n];
+        comb = new int[m];
+        home = new ArrayList<>();
+        chicken = new ArrayList<>();
+
+        for(int i=0; i<n; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=0; j<n; j++){
+                arr[i][j] = Integer.parseInt(st.nextToken());
+                if(arr[i][j] == 1){
+                    home.add(new Location(i, j));
+                }
+                if(arr[i][j] == 2){
+                    chicken.add(new Location(i, j));
+                }
+            }
+        }
+        result = Integer.MAX_VALUE;
+        distance(0,0);
+        System.out.println(result);
+    }
+    public static void distance(int cnt, int start){
+        if(cnt == m){
+            int sum = 0;
+
+            for(int i=0; i<home.size(); i++){
+                int min = Integer.MAX_VALUE;
+                for(int j=0; j<m; j++){
+
+                    min = Math.min(min, home.get(i).minus(chicken.get(comb[j])));
+
+                }
+                sum += min;
+            }
+            if(result > sum){
+                result = sum;
+            }
+
+            return;
+        }
+        for(int i=start; i<chicken.size(); i++){
+            comb[cnt] = i;
+            distance(cnt+1, i+1);
+        }
+    }
+}
