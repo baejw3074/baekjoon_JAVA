@@ -1,0 +1,64 @@
+public class Goodmorning2 {
+    static int[] num = {1, 2, 3, 4};
+    static int R = 2;
+    static int[] arr = new int[2];
+    static boolean[] visit = new boolean[4];
+    public static void main(String[] args) {
+
+//      1. num에서 R개를 뽑아서 만들 수 있는 순열을 모두 출력하시오.
+        System.out.println("----- 순열 -----");
+        makePermutation(0);
+
+//      2. num에서 R개를 뽑아서 만들 수 있는 조합을 모두 출력하시오.
+        System.out.println("----- 조합 -----");
+        makeCombination(0, 0);
+
+
+//      3. num으로 구성할 수 있는 모든 부분집합을 출력하시오.
+        System.out.println("----- 부분집합 -----");
+        makeSubset(0);
+
+    }
+    public static void makePermutation(int cnt){
+        if(cnt == R){
+            for(int i=0; i<arr.length; i++){
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println();
+            return;
+        }
+        for(int i=0; i<4; i++){
+            if(visit[i]) continue;
+            visit[i] = true;
+            arr[cnt] = num[i];
+            makePermutation(cnt+1);
+            visit[i] = false;
+        }
+    }
+    public static void makeCombination(int cnt, int start){
+        if(cnt == R){
+            for(int i=0; i<arr.length; i++){
+                System.out.print(arr[i] + " ");
+            }
+            System.out.println();
+            return;
+        }
+        for(int i=start; i<4; i++){
+            arr[cnt] = num[i];
+            makeCombination(cnt+1, i+1);
+        }
+    }
+    public static void makeSubset(int cnt){
+        if(cnt == 4){
+            for(int i=0; i<4; i++){
+                System.out.print(visit[i]?num[i] + " ": "x ");
+            }
+            System.out.println();
+            return;
+        }
+        visit[cnt] = true;
+        makeSubset(cnt +1);
+        visit[cnt] = false;
+        makeSubset(cnt + 1);
+    }
+}
