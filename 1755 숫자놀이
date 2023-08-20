@@ -1,0 +1,54 @@
+
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.PriorityQueue;
+import java.util.Scanner;
+
+public class 숫자영어로정렬 {
+    public static void main(String[] args){
+        StringBuilder sb = new StringBuilder();
+        String[] num = {"zero","one","two","three","four","five","six","seven","eight","nine"};
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+
+        PriorityQueue<Com> q = new PriorityQueue<Com>();
+
+        for(int i=m; i<=n; i++){
+            String str = "";
+            if(i<10){
+                str = num[i];
+            }
+            else{
+                str += num[i/10];
+                str += " ";
+                str += num[i%10];
+            }
+            q.add(new Com(str, i));
+        }
+        int cnt = 0;
+        while(!q.isEmpty()){
+            Com c = q.poll();
+            cnt++;
+
+            sb.append(c.n).append(" ");
+            if(cnt % 10 ==0){
+                sb.append("\n");
+            }
+        }
+        System.out.println(sb);
+    }
+
+
+}
+class Com implements Comparable<Com>{
+    String str;
+    int n;
+    public Com(String str, int n){
+        this.str = str;
+        this.n = n;
+    }
+    public int compareTo(Com o){
+        return str.compareTo(o.str);
+    }
+}
