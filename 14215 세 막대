@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Main_cheese {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int[] arr = new int[3];
+        int sum = 0;
+        for(int i=0; i<3; i++){
+            arr[i] = sc.nextInt();
+            sum += arr[i];
+        }
+        int max = 0;
+        for(int i=0; i<3; i++){
+            if(max < arr[i]){
+                max = arr[i];
+            }
+        }
+        if(sum - max <= max){
+            int a = sum - max;
+            max = sum - max-1;
+            System.out.println(max + a);
+        }
+        else{
+            System.out.println(sum);
+        }
+    }
+}
