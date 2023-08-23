@@ -1,0 +1,47 @@
+import java.util.Scanner;
+import java.util.Stack;
+class solve{
+    int x;
+    int y;
+    public solve(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+}
+
+public class 과제하기싫다 {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        Stack<solve> stack = new Stack<>();
+        int sum=0;
+        for(int i=0; i<n; i++){
+            int a = sc.nextInt();
+            if(a == 1){
+                int b = sc.nextInt();
+                int c = sc.nextInt();
+                if(c-1==0){
+                    sum += b;
+                }
+                else{
+                    stack.push(new solve(b,c-1));
+                }
+            }
+            else{
+                if(!stack.isEmpty()){
+                    if(stack.peek().y-1==0){
+                        int d = stack.pop().x;
+                        sum += d;
+                    }
+                    else{
+                        solve k = new solve(stack.peek().x, stack.peek().y-1);
+                        stack.pop();
+                        stack.push(k);
+                    }
+                }
+            }
+        }
+        System.out.println(sum);
+    }
+}
