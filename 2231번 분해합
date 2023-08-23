@@ -24,3 +24,41 @@ public class Main {
 		
 	}
 }
+//<다시 풀기>
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main_분해합 {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        ArrayList<Integer> list = new ArrayList<>();
+
+        for(int i=n/2; i<n; i++){
+            int sum=0;
+            sum += i;
+            int element = i;
+            while(element!=0){
+                sum += element%10;
+                element = element/10;
+            }
+
+            if(sum == n){
+                list.add(i);
+            }
+        }
+        int min = Integer.MAX_VALUE;
+        for(int i=0; i<list.size(); i++){
+            if(min > list.get(i)){
+                min = list.get(i);
+            }
+        }
+        if(min == Integer.MAX_VALUE){
+            System.out.println(0);
+        }
+        else{
+            System.out.println(min);
+        }
+    }
+}
+
