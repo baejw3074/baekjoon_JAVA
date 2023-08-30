@@ -1,0 +1,21 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        for(int i=0; i<t; i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt(); // bCa
+            long[][] dp = new long[b+1][a+1];
+            for(int j=0; j<=b; j++){
+                for(int k=0, end = Math.min(j, a); k<=end; k++){
+                    if(k==0 || j==k) dp[j][k] = 1;
+                    else dp[j][k] = dp[j-1][k-1] + dp[j-1][k];
+                }
+            }
+            System.out.println(dp[b][a]);
+        }
+    }
+}
