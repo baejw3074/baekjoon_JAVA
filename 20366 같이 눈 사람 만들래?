@@ -37,3 +37,50 @@ public class Main {
         System.out.println(min);
     }
 }
+
+<투 포인터 알고리즘 활용>
+import java.util.Arrays;
+import java.util.Scanner;
+public class 눈사람다시 {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr= new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = sc.nextInt();
+        }
+        int min = Integer.MAX_VALUE;
+        Arrays.sort(arr);
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                int snowman1 = arr[i]+arr[j];
+                int start = 0;
+                int end = n-1;
+                while(start<end){
+                    if(start == i || start == j){
+                        start++;
+                        continue;
+                    }
+                    if(end == i || end == j){
+                        end--;
+                        continue;
+                    }
+                    int snowman2 = arr[start] + arr[end];
+                    min = Math.min(min, Math.abs(snowman1-snowman2));
+                    if(snowman1>snowman2){
+                        start++;
+                    }
+                    else if(snowman1<snowman2){
+                        end--;
+                    }
+                    else{
+                        System.out.println(0);
+                        return;
+                    }
+                }
+            }
+        }
+        System.out.println(min);
+    }
+}
+
