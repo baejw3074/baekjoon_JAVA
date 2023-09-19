@@ -1,0 +1,39 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+class anna{
+    int x1;
+    int x2;
+    int sum;
+    public anna(int x1, int x2, int sum){
+        this.x1=x1;
+        this.x2=x2;
+        this.sum=sum;
+    }
+}
+public class Main {
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr= new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = sc.nextInt();
+        }
+        int min = Integer.MAX_VALUE;
+        ArrayList<anna> list = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                list.add(new anna(i, j, arr[i] + arr[j]));
+            }
+        }
+
+        list.sort((anna o1, anna o2) -> o1.sum-o2.sum);
+        for(int i=0; i<list.size()-1; i++){
+            anna num1 = list.get(i);
+            anna num2 = list.get(i+1);
+            if(num1.x1 == num2.x1 || num1.x1==num2.x2||num1.x2==num2.x1||num1.x2==num2.x2)
+                continue;
+            min = Math.min(min, num2.sum - num1.sum);
+        }
+        System.out.println(min);
+    }
+}
