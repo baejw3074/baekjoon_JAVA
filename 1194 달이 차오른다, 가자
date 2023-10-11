@@ -9,7 +9,7 @@ class Moon{
     int y;
     int count;
     int key;
-    public Moon(int x, int y, int count, int key){
+    public Moon(int x, int y, int count, int key){ 
         this.x = x;
         this.y = y;
         this.count = count;
