@@ -47,6 +47,8 @@ public class Test {
         int d = (dir + 2) % 4;
         int nx = x + dx[d];
         int ny = y + dy[d];
+//	int nx = x - dx[dir];
+//	int ny = y - dy[dir];
         if(nx >= 0 && ny >= 0 && nx < n && ny < m && arr[nx][ny] != 1) {
             clean(nx, ny, dir);
         }
