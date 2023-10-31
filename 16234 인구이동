@@ -1,0 +1,93 @@
+import java.io.BufferedInputStream;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Scanner;
+
+class Node{
+	int x;
+	int y;
+	public Node(int x, int y){
+		this.x=x;
+		this.y=y;
+	}
+}
+public class Main_Migration{
+	static int n, l, r;
+	static int[] dx = {-1, 1, 0, 0};
+	static int[] dy = {0, 0, -1, 1};
+	static int[][] arr;
+	static boolean[][] visit;
+	static ArrayList<Node> list;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		n = sc.nextInt();
+		l = sc.nextInt();
+		r = sc.nextInt();
+		
+		arr = new int[n][n];
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<n; j++) {
+				arr[i][j] = sc.nextInt();
+			}
+		}
+		System.out.println(move());
+		
+	}
+	public static int move() {
+		int result = 0;
+		while(true) {
+			boolean isMove = false;
+			visit = new boolean[n][n];
+			for(int i=0; i<n; i++) {
+				for(int j=0; j<n; j++) {
+					if(!visit[i][j]) {
+						int sum = bfs(i,j);
+						if(list.size()>1) {
+							Migrate(sum);
+							isMove = true;
+						}
+					}
+				}
+			}
+			if(!isMove) return result;
+			result++;
+		}
+	}
+	public static int bfs(int x, int y) {
+		Queue<Node> q = new LinkedList<>();
+        list = new ArrayList<>();
+        
+        q.offer(new Node(x, y));
+        list.add(new Node(x, y));
+        visit[x][y] = true;
+        
+        int sum = arr[x][y];
+        while(!q.isEmpty()) {
+            Node current = q.poll();
+            
+            for(int i = 0; i < 4; i++) {
+                int nx = current.x + dx[i];
+                int ny = current.y + dy[i];
+                if(nx >= 0 && ny >= 0 && nx < n && ny < n && !visit[nx][ny]) {
+                    int diff = Math.abs(arr[current.x][current.y] - arr[nx][ny]);
+                    if(l <= diff && diff <= r) {
+                        q.offer(new Node(nx, ny));
+                        list.add(new Node(nx, ny));
+                        sum += arr[nx][ny];
+                        visit[nx][ny] = true;
+                    }        
+                }
+            }
+        }
+        return sum;
+	}
+	public static void Migrate(int sum) {
+		int avg = sum / list.size();
+		for(int i=0; i<list.size(); i++) {
+			Node current = list.get(i);
+			arr[current.x][current.y] = avg;
+		}
+	}
+}
