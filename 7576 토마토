@@ -1,0 +1,74 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Scanner;
+class Fruit{
+	int x;
+	int y;
+	public Fruit(int x, int y) {
+		this.x=x;
+		this.y=y;
+	}
+}
+public class Main_tomato {
+	static int n,m;
+	static int[][] arr;
+	static int[] dx = {-1, 1, 0 ,0};
+	static int[] dy = {0, 0, -1, 1};
+	static Queue<Fruit> queue;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		m = sc.nextInt();
+		n = sc.nextInt();
+		queue = new LinkedList<>();
+		arr = new int[n][m];
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<m; j++) {
+				arr[i][j] = sc.nextInt();
+			}
+		}
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<m; j++) {
+				if(arr[i][j] == 1) {
+					queue.add(new Fruit(i, j));
+				}
+			}
+		}
+		
+		bfs();
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<m; j++) {
+				if(arr[i][j] == 0) {
+					System.out.println(-1);
+					System.exit(0);
+				}
+			}
+		}
+		int max = Integer.MIN_VALUE;
+		for(int i=0; i<n; i++) {
+			for(int j=0; j<m; j++) {
+				if(max < arr[i][j]) {
+					max = arr[i][j];
+				}
+			}
+		}
+		if(max == 1) {
+			System.out.println(0);
+		}
+		else {
+			System.out.println(max-1);
+		}
+	}
+	private static void bfs() {
+		while(!queue.isEmpty()) {
+			Fruit current = queue.poll();
+			for(int i=0; i<4; i++) {
+				int nx = current.x + dx[i];
+				int ny = current.y + dy[i];
+				if(nx>=0 && ny >=0 && nx < n && ny < m && arr[nx][ny] == 0) {
+					arr[nx][ny] = arr[current.x][current.y] + 1;
+					queue.add(new Fruit(nx, ny));
+				}
+			}
+		}
+	}
+}
