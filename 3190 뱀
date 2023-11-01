@@ -1,0 +1,92 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+import org.w3c.dom.ls.LSInput;
+class Snake{
+	int x;
+	int y;
+	public Snake(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
+}
+class Direction{
+	int time;
+	String turn;
+	public Direction(int time, String turn) {
+		this.time = time;
+		this.turn = turn;
+	}
+}
+public class Main_Snake {
+	static int n, k, m;
+	static int[][] arr;
+	static int[] dx = {0, 1, 0, -1};
+	static int[] dy = {1, 0, -1, 0};
+	static ArrayList<Direction> changeDir;
+	static boolean[][] visit;
+	static ArrayList<Snake> list;
+	static int dir;
+	static int count;
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		n = sc.nextInt();
+		k = sc.nextInt();
+		arr = new int[n][n];
+		
+		for(int i=0; i<k; i++) {
+			int x = sc.nextInt();
+			int y = sc.nextInt();
+			arr[x-1][y-1] = 1;
+		}
+		
+		m = sc.nextInt();
+		dir = 0;
+		changeDir = new ArrayList<>();
+		for(int i=0; i<m; i++) {
+			int second = sc.nextInt();
+			String t = sc.next();
+			changeDir.add(new Direction(second, t));
+		}
+		list = new ArrayList<>();
+		list.add(new Snake(0,  0));
+		visit = new boolean[n][n];
+		visit[0][0] = true;
+		dfs(0, 0);
+		System.out.println(count+1);
+	}
+	public static void dfs(int x, int y) {
+		if(changeDir.size()>0) {
+			if(count == changeDir.get(0).time) {
+				if(changeDir.get(0).turn.equals("L")) {
+					dir = (dir+3)%4;
+				}
+				else if(changeDir.get(0).turn.equals("D")) {
+					dir = (dir+1)%4;
+				}
+				changeDir.remove(0);
+			}
+		}
+		int nx = x + dx[dir];
+		int ny = y + dy[dir];
+		if(nx<0 || ny < 0 || nx >= n | ny >= n || visit[nx][ny]) {
+			return;
+		}
+		
+		if(arr[nx][ny] == 1) {
+			list.add(new Snake(nx, ny));
+			arr[nx][ny] = 0;
+			visit[nx][ny] = true;
+		}
+		else {
+			list.add(new Snake(nx, ny));
+			Snake last = list.get(0);
+			visit[nx][ny] = true;
+			visit[last.x][last.y] = false;
+			list.remove(0);
+		}
+		count++;
+		dfs(nx, ny);
+	}
+}
