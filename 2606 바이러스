@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class Main {
+    static int n, m;
+    static int[][] arr;
+    static boolean[] visit;
+    static int count;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        arr = new int[n][n];
+        for(int i=0; i<m; i++){
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            arr[a-1][b-1] = arr[b-1][a-1] = 1;
+        }
+        count = 0;
+        visit = new boolean[n];
+        virus(0);
+        System.out.println(count);
+    }
+    private static void virus(int x){
+        visit[x] = true;
+        for(int i=0; i<n; i++){
+            if(arr[x][i] == 1 && !visit[i]){
+                virus(i);
+                count++;
+            }
+        }
+    }
+}
