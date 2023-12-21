@@ -1,0 +1,106 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+
+class Shark{
+    int x;
+    int y;
+    int speed;
+    int dir;
+    int mount;
+    public Shark(int x, int y, int speed, int dir, int mount){
+        this.x=x;
+        this.y=y;
+        this.speed = speed;
+        this.dir=dir;
+        this.mount=mount;
+    }
+}
+public class Main{
+    static int R, C, m;
+    static int r, c, s, d, z;
+    static Shark[][] arr;
+    static int[] dx = {-1, 0, 1, 0};
+    static int[] dy = {0, -1, 0, 1};
+    static int result;
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        R = Integer.parseInt(st.nextToken());
+        C = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        result = 0;
+
+        arr = new Shark[R][C];
+        for(int i=0; i<m; i++){
+            st = new StringTokenizer(br.readLine());
+            r = Integer.parseInt(st.nextToken());
+            c = Integer.parseInt(st.nextToken());
+            s = Integer.parseInt(st.nextToken());
+            d = Integer.parseInt(st.nextToken());
+            z = Integer.parseInt(st.nextToken());
+
+            if(d == 1){
+                d=0;
+            }
+            else if(d==4){
+                d=1;
+            }
+            arr[r-1][c-1] = new Shark(r, c, s, d, z);
+        }
+        for(int j=0; j<C; j++){
+            for(int i=0; i<R; i++){
+                if(arr[i][j] != null){
+                    result+= arr[i][j].mount;
+                    arr[i][j] = null;
+                    break;
+                }
+            }
+            Queue<Shark> q = new LinkedList<>();
+            for(int a=0; a<R; a++){
+                for(int b=0; b<C; b++){
+                    if(arr[a][b] != null){
+                        q.add(new Shark(a, b, arr[a][b].speed, arr[a][b].dir, arr[a][b].mount));
+                    }
+                }
+            }
+            arr = new Shark[R][C];
+
+            while(!q.isEmpty()){
+                Shark current = q.poll();
+                int fast = current.speed;
+                if(current.dir == 0 || current.dir == 2){
+                    fast %= (R-1) * 2;
+                }
+                else if(current.dir == 1 || current.dir == 3){
+                    fast %= (C-1) * 2;
+                }
+                for(int f=0; f<fast; f++){
+                    int nr = current.x + dx[current.dir];
+                    int nc = current.y + dy[current.dir];
+
+                    if(nr<0 || nc<0 || nr>=R || nc>=C){
+                        current.x -= dx[current.dir];
+                        current.y -= dy[current.dir];
+                        current.dir = (current.dir+2)%4;
+                        continue;
+                    }
+                    current.x = nr;
+                    current.y = nc;
+                }
+                if(arr[current.x][current.y] != null){
+                    if(arr[current.x][current.y].mount < current.mount){
+                        arr[current.x][current.y] = new Shark(current.x, current.y, current.speed, current.dir, current.mount);
+                    }
+                }
+                else{
+                    arr[current.x][current.y] = new Shark(current.x, current.y, current.speed, current.dir, current.mount);
+                }
+            }
+        }
+        System.out.println(result);
+    }
+}
