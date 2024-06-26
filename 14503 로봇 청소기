@@ -8,7 +8,7 @@ public class Test {
 	static int count;
 	static int[] dx = {-1, 0, 1, 0};
     static int[] dy = {0, 1, 0, -1};
-	public static void main(String[] args) {
+	public static void main(String[] args) { 
 		Scanner sc = new Scanner(System.in);
 		n = sc.nextInt();
 		m = sc.nextInt();
