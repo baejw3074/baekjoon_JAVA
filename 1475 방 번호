@@ -1,0 +1,33 @@
+import java.util.Scanner;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String n = sc.next();
+        int[] arr = new int[10];
+        for(int i=0; i<n.length(); i++){
+            int k = Integer.valueOf(n.substring(i, i+1));
+            if(k == 6 || k == 9){
+                arr[6] += 1;
+            }
+            else{
+                arr[k] +=1;
+            }
+        }
+        int max = 0;
+        for(int i=0; i<10; i++){
+            if(i == 6 || i == 9){
+                if(arr[6]%2 == 0){
+                    max = Math.max(max, arr[6]/2);
+                }
+                else{
+                    max = Math.max(max, arr[6]/2+1);
+                }
+            }
+            else{
+                max = Math.max(max, arr[i]);
+            }
+        }
+        System.out.println(max);
+    }
+}
