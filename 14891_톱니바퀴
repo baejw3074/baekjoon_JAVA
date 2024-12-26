@@ -1,0 +1,81 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+
+public class Main{
+    static int[][] wheel;
+    static int[] direction;
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        wheel = new int[4][8];
+        for(int i=0; i<4; i++){
+            String str = br.readLine();
+            for(int j=0; j<str.length(); j++){
+                wheel[i][j] = str.charAt(j) - '0';
+            }
+        }
+        int k = Integer.parseInt(br.readLine());
+        for(int i=0; i<k; i++){
+            st = new StringTokenizer(br.readLine());
+            int num = Integer.parseInt(st.nextToken()) - 1;
+            int turn = Integer.parseInt(st.nextToken());
+            direction = new int[4];
+            direction[num] = turn;
+            check(num);
+            move();
+        }
+        int ans = 0;
+        if(wheel[0][0] == 1){
+            ans += 1;
+        }
+        if(wheel[1][0] == 1){
+            ans += 2;
+        }
+        if(wheel[2][0] == 1){
+            ans += 4;
+        }
+        if(wheel[3][0] == 1){
+            ans += 8;
+        }
+        System.out.println(ans);
+    }
+    private static void check(int num){
+        for(int i=num-1; i>=0; i--){
+            if(wheel[i][2] != wheel[i+1][6]){
+                direction[i] = -direction[i+1];
+            }
+            else{
+                break;
+            }
+        }
+        for(int i=num+1; i<4; i++){
+            if(wheel[i][6] != wheel[i-1][2]){
+                direction[i] = -direction[i-1];
+            }
+            else{
+                break;
+            }
+        }
+    }
+    private static void move(){
+        int temp = 0;
+        for(int i=0; i<4; i++){
+            if(direction[i] == 1){
+                temp = wheel[i][7];
+                for(int j=7; j>0; j--){
+                    wheel[i][j] = wheel[i][j-1];
+                }
+                wheel[i][0] = temp;
+            }
+            if(direction[i] == -1){
+                temp = wheel[i][0];
+                for(int j=0; j<7; j++){
+                    wheel[i][j] = wheel[i][j+1];
+                }
+                wheel[i][7] = temp;
+            }
+        }
+    }
+}
