@@ -1,1 +1,110 @@
-.
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.StringTokenizer;
+class Pos{
+    int x;
+    int y;
+    int dir;
+    int count;
+    public Pos(int x, int y, int dir, int count){
+        this.x=x;
+        this.y=y;
+        this.dir=dir;
+        this.count=count;
+    }
+}
+public class Main{
+    static int m, n;
+    static int[][] arr;
+    static boolean[][][] visit;
+    static int[] dx = {0, 0, 1, -1}; // 방향에 유의해야한다... 계속 오답..
+    static int[] dy = {1, -1, 0, 0};
+    static Pos start;
+    static Pos end;
+    static int answer;
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        m = Integer.parseInt(st.nextToken());
+        n = Integer.parseInt(st.nextToken());
+        arr = new int[m+1][n+1];
+        visit = new boolean[m+1][n+1][5]; // 1,1부터 시작
+        for(int i=1; i<=m; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=1; j<=n; j++){
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        st = new StringTokenizer(br.readLine());
+        start = new Pos(Integer.parseInt(st.nextToken()),
+                Integer.parseInt(st.nextToken()),
+                Integer.parseInt(st.nextToken()),
+                0);
+        st = new StringTokenizer(br.readLine());
+        end = new Pos(Integer.parseInt(st.nextToken()),
+                Integer.parseInt(st.nextToken()),
+                Integer.parseInt(st.nextToken()),
+                0);
+        answer = 0;
+        bfs();
+        System.out.println(answer);
+    }
+    private static void bfs(){
+        Queue<Pos> queue = new LinkedList<>();
+        visit[start.x][start.y][start.dir] = true;
+        queue.add(start);
+        while(!queue.isEmpty()){
+            Pos current = queue.poll();
+            if(current.x == end.x && current.y == end.y && current.dir == end.dir){
+                answer = current.count;
+                return;
+            }
+
+            for(int i=1; i<=3; i++){ // 앞으로 움직이기
+                int nx = current.x + dx[current.dir-1]*i;
+                int ny = current.y + dy[current.dir-1]*i;
+                if (nx <= 0 || ny <= 0 || nx > m || ny > n) continue;
+                if(arr[nx][ny] == 0){
+                    if(!visit[nx][ny][current.dir]){
+                        visit[nx][ny][current.dir] = true;
+                        queue.add(new Pos(nx, ny, current.dir, current.count + 1));
+                    }
+                }
+                else{
+                    break;
+                }
+
+            }
+            for(int i=1; i<=4; i++){ // 방향 전환하기, 반대 방향일 경우 +2
+                if(current.dir != i  && !visit[current.x][current.y][i]){
+                    int turn = 1;
+                    if(current.dir == 1){
+                        if(i == 2){
+                            turn++;
+                        }
+                    }
+                    else if(current.dir == 2){
+                        if(i == 1){
+                            turn++;
+                        }
+                    }
+                    else if(current.dir == 3){
+                        if(i == 4){
+                            turn++;
+                        }
+                    }
+                    else if(current.dir == 4){
+                        if(i == 3){
+                            turn++;
+                        }
+                    }
+                    visit[current.x][current.y][i] = true;
+                    queue.add(new Pos(current.x, current.y, i, current.count + turn));
+                }
+            }
+        }
+    }
+}
