@@ -1,0 +1,91 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
+
+class Pos implements Comparable<Pos> {
+    int num;
+    int weight;
+    public Pos(int num, int weight){
+        this.num = num;
+        this.weight = weight;
+    }
+    @Override
+    public int compareTo(Pos other) { // 우선순위 큐 사용을 위해 작성해야함
+        return this.weight - other.weight; // weight 기준 오름차순
+    }
+}
+public class Main{
+    static int n, m, r;
+    static int[] item; // 아이템 수 저장
+    static ArrayList<ArrayList<Pos>> list; // 리스트 안에 리스트
+    static int[] shortest; // 최단거리 저장
+    static boolean[] visit;
+    static int answer;
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        r = Integer.parseInt(st.nextToken());
+
+        item = new int[n+1];
+        shortest = new int[n+1];
+        visit = new boolean[n+1];
+        answer = 0;
+
+        st = new StringTokenizer(br.readLine());
+        for(int i=1; i<=n; i++){
+            item[i] = Integer.parseInt(st.nextToken());
+        }
+        list = new ArrayList<>();
+        for(int i=0; i<=n; i++){
+            list.add(new ArrayList<>());
+        }
+
+        for(int i=1; i<=r; i++){ // 양방향 연결리스트
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            int weight = Integer.parseInt(st.nextToken());
+
+            list.get(start).add(new Pos(end, weight));
+            list.get(end).add(new Pos(start, weight));
+        }
+        for(int i=1; i<=n; i++){
+            answer = Math.max(answer, dijkstra(i));
+        }
+        System.out.println(answer);
+    }
+    private static int dijkstra(int k){
+        for(int i=0; i<n+1; i++){ // 해당 구역에 떨어질때마다 리셋해주기
+            shortest[i] = Integer.MAX_VALUE;
+            visit[i] = false;
+        }
+//        Arrays.fill(shortest, Integer.MAX_VALUE); 이렇게도 쓸수 있다.
+//        Arrays.fill(visit, false);
+        PriorityQueue<Pos> pq = new PriorityQueue<>();
+        pq.add(new Pos(k, 0));
+        shortest[k] = 0;
+        while(!pq.isEmpty()){
+            Pos current = pq.poll();
+            if(!visit[current.num]){
+                visit[current.num] = true;
+                for(int i=0; i<list.get(current.num).size(); i++){
+                    Pos pos  = list.get(current.num).get(i);
+                    if(!visit[pos.num] && shortest[pos.num] > shortest[current.num] + pos.weight){
+                        shortest[pos.num] = shortest[current.num] + pos.weight;
+                        pq.add(new Pos(pos.num, shortest[pos.num]));
+                    }
+                }
+            }
+        }
+        int answer = 0;
+        for(int i=1; i<=n; i++){ // 찾을 수 있는 범위 안에 있으면 아이템 수 더하기
+            if(shortest[i] <= m){
+                answer += item[i];
+            }
+        }
+        return answer;
+    }
+}
