@@ -1,0 +1,40 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Main{
+    static int n;
+    static int[] arr;
+    static int answer;
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        arr = new int[n]; // 각 행을 인덱스, 각 열을 값
+        answer = 0;
+        dfs(0);
+        System.out.println(answer);
+    }
+    private static void dfs(int k){
+        if(k == n){
+            answer++;
+            return;
+        }
+        for(int i=0; i<n; i++){ // 각 행마다 모든 열 체크하기
+            arr[k] = i; // 모든 열 값 다 넣어보기
+            if(check(k)){
+                dfs(k+1);
+            }
+        }
+    }
+    private static boolean check(int k){ // 1. 열에 다른 값 있는지 확인, 2. 대각선 확인
+        for(int i=0; i<k; i++) {
+            if (arr[i] == arr[k]) { //  1번 열 체크
+                return false;
+            }
+            if(Math.abs(k-i) == Math.abs(arr[k] - arr[i])){ // 2번 대각 체크, 행 차이 열차이 절댓값 같아야함.
+                return false;
+            }
+        }
+        return true;
+    }
+}
