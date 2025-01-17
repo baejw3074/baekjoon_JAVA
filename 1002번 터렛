@@ -18,7 +18,7 @@ public class Main {
 					continue;
 				}
 				else { // 중심 같고 반지름 다를 때
-					System.out.println(0);
+					System.out.println(0); 
 					continue;
 				}
 			}
