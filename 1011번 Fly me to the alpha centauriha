@@ -12,7 +12,7 @@ public class Main {
 			int max = (int)Math.sqrt(distance);
 			
 			if(distance == max * max) {
-				System.out.println(2*max-1);
+				System.out.println(2*max-1); 
 			}
 			else if(distance <= max * max + max) {
 				System.out.println(2*max);
