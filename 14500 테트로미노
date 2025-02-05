@@ -47,7 +47,7 @@ public class Main{
                 continue;
             }
             if(!visit[nx][ny]){
-                if(count == 2){
+                if(count == 2){ // ㅗ, ㅓ, ㅏ, ㅜ 처리하기 위해서 -> 3칸을 탐색한 후 다시 두번째 칸으로 돌아옴
                     visit[nx][ny] = true;
                     dfs(x, y, sum + arr[nx][ny], count+1);
                     visit[nx][ny] = false;
