@@ -1,0 +1,55 @@
+import java.util.LinkedList; // 배열을 하나 더 생성해서 벽을 뚤린 벽으로 만든 최소 횟수 저장
+import java.util.Queue;
+import java.util.Scanner;
+class Pos{
+    int x;
+    int y;
+    public Pos(int x, int y){
+        this.x=x;
+        this.y=y;
+    }
+}
+public class Main{
+    static int n;
+    static int[][] arr;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static int[][] dist;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        sc.nextLine();
+        arr = new int[n][n];
+        dist = new int[n][n];
+        for(int i=0; i<n; i++){
+            String str = sc.nextLine();
+            for(int j=0; j<n; j++){
+                arr[i][j] = str.charAt(j) - '0';
+                dist[i][j] = Integer.MAX_VALUE;
+            }
+        }
+        bfs();
+        System.out.println(dist[n-1][n-1]);
+    }
+    private static void bfs(){
+        Queue<Pos> q = new LinkedList<>();
+        q.add(new Pos(0, 0));
+        dist[0][0] = 0;
+        while(!q.isEmpty()){
+            Pos current = q.poll();
+            for(int i=0; i<4; i++){
+                int nx = current.x + dx[i];
+                int ny = current.y + dy[i];
+                if(nx >=0 && ny >=0 && nx < n && ny < n && dist[nx][ny] > dist[current.x][current.y]){
+                    if(arr[nx][ny] == 1){
+                        dist[nx][ny] = dist[current.x][current.y];
+                    }
+                    else{
+                        dist[nx][ny] = dist[current.x][current.y] + 1;
+                    }
+                    q.add(new Pos(nx, ny));
+                }
+            }
+        }
+    }
+}
