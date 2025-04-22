@@ -1,0 +1,78 @@
+import java.io.*;
+import java.util.*;
+
+class Pos{
+    int x;
+    int y;
+    int virus;
+    int time;
+    public Pos(int x, int y, int virus, int time){
+        this.x=x;
+        this.y=y;
+        this.virus = virus;
+        this.time = time; // 시간이 s가 되면 바로 return 하기 위해서
+    }
+}
+public class Main{
+    static int n, k;
+    static int[][] arr;
+    static int s;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    static Queue<Pos> q = new LinkedList<>();
+    public static void main(String[] args)throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        arr = new int[n][n];
+        ArrayList<Pos> list = new ArrayList<>();
+        for(int i=0; i<n; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=0; j<n; j++){
+                arr[i][j] = Integer.parseInt(st.nextToken());
+                if(arr[i][j] != 0){
+                    list.add(new Pos(i, j, arr[i][j], 0)); // 계속 찾을 거 없이 초기에 바이러스 들어오는 위치와 바이러스 정보 저장
+                }
+            }
+        }
+
+        Collections.sort(list, new Comparator<Pos>() { // 낮은 번호의 바이러스부터 전염되므로 바이러스로 정렬
+            @Override
+            public int compare(Pos o1, Pos o2) {
+                return o1.virus - o2.virus;
+            }
+        });
+
+        for(int i=0; i<list.size(); i++){ // bfs 하기 위해 queue에 넣기
+            q.add(list.get(i));
+        }
+
+        st = new StringTokenizer(br.readLine());
+        s = Integer.parseInt(st.nextToken());
+        int x = Integer.parseInt(st.nextToken());
+        int y = Integer.parseInt(st.nextToken());
+
+        spread();
+        System.out.println(arr[x-1][y-1]);
+    }
+    private static void spread(){ // bfs 시작
+        while(!q.isEmpty()){
+            Pos current = q.poll();
+            if(current.time == s){ //해당 시간이 되면 return
+                return;
+            }
+            for(int i=0; i<4; i++){
+                int nx = current.x + dx[i];
+                int ny = current.y + dy[i];
+                if(nx >=0 && ny >=0 && nx < n && ny < n){
+                    if(arr[nx][ny] == 0){
+                        arr[nx][ny] = current.virus; // 기준 바이러스에서 움직인거니까 기준 바이러스 전염
+                        q.add(new Pos(nx, ny, arr[nx][ny], current.time + 1)); // 시간 +1해서 다시 queue에 넣기
+                    }
+                }
+            }
+        }
+    }
+}
