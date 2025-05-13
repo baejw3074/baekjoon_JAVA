@@ -1,0 +1,52 @@
+import java.util.*;
+import java.io.*;
+
+public class Main {
+    static int n, target;
+    static int[][] arr;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        target = sc.nextInt();
+        arr = new int[n][n];
+        spin();
+        int target_x=0;
+        int target_y = 0;
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                System.out.print(arr[i][j] + " ");
+                if(arr[i][j] == target){
+                    target_x = i+1;
+                    target_y = j+1;
+                }
+            }
+            System.out.println();
+        }
+        System.out.print(target_x + " " + target_y);
+    }
+    private static void spin(){
+        int value = 1;
+        int move = 1;
+        int x = n/2;
+        int y = n/2;
+        while(true){
+            for(int i=0; i<move; i++){
+                arr[x--][y] = value++;
+            }
+            if(value == n*n + 1){
+                break;
+            }
+            for(int i=0; i<move; i++){
+                arr[x][y++] = value++;
+            }
+            move++;
+            for(int i=0; i<move; i++){
+                arr[x++][y] = value++;
+            }
+            for(int i=0; i<move; i++){
+                arr[x][y--] = value++;
+            }
+            move++;
+        }
+    }
+}
