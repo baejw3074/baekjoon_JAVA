@@ -1,0 +1,85 @@
+class Solution {
+    public int solution(int n, int[] stations, int w) { // 시간초과
+        int answer = 0;
+        boolean[] visit = new boolean[n];
+        for(int i=0; i<stations.length; i++){
+            int num = stations[i];
+            visit[num-1] = true;
+            for(int j=1; j<=w; j++){
+                int temp = num-1 + j;
+                if(temp <n){
+                    visit[temp] = true;
+                }
+                temp = num-1 - j;
+                if(temp>=0){
+                    visit[temp] = true;
+                }
+            }
+        }
+        for(int i=0; i<n; i++){
+            int count = 0;
+            if(!visit[i]){
+                for(int j=i; j<n; j++){
+                    if(!visit[j]){
+                        visit[j] = true;
+                        count++;
+                        i++;
+                    }
+                    else{
+                        i = j+1;
+                        break;
+                    }
+                }
+                int result = 0;
+                if(count % (w*2+1) == 0){
+                    result = count / (w*2+1);
+                }
+                else{
+                    result = (count / (w*2+1) + 1);
+                }
+                answer += result;
+            }
+        }
+        return answer;
+    }
+}
+
+////정답 코드
+class Solution {
+    public int solution(int n, int[] stations, int w) { // boolean 배열 필요없음
+        int answer = 0;
+        int cover = (w*2+1);
+        int start = 1;
+        for(int i=0; i<stations.length; i++){ // 위치정보만 기억하고 판단하면 됨.
+            int pos = stations[i];
+            int left = pos - w;
+            int right = pos + w;
+            
+            int gap = left - start;
+            if(gap > 0){
+                int result = 0;
+                if(gap % cover == 0){
+                    result = gap / cover;
+                }
+                else{
+                    result = gap / cover+1;
+                }
+                answer += result;    
+            }
+            
+            start = right+1;
+        }
+        if(start <= n){
+            int gap = n - start+1;
+            int result = 0;
+            if(gap % cover == 0){
+                result = gap / cover;
+            }
+            else{
+                result = gap / cover+1;
+            }
+            answer+= result;
+        }
+        return answer;
+    }
+}
