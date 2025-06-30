@@ -1,0 +1,15 @@
+class Solution {
+    public String solution(int n, int t, int m, int p) {
+        String answer = "";
+        String game = "";
+        int gameCount = t * m;
+        int num = 0;
+        while(game.length() <= gameCount){
+            game += Integer.toString(num++, n);
+        }
+        for(int i=p-1; i<gameCount; i+=m){
+            answer += game.substring(i, i+1);
+        }
+        return answer.toUpperCase();
+    }
+}
