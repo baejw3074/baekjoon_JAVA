@@ -1,0 +1,102 @@
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    static int n, l;
+    static int[][] arr;
+    static int count =0;
+    static boolean[] visit;
+    public static void main(String[] args)throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        l = Integer.parseInt(st.nextToken());
+
+        arr = new int[n][n];
+        for(int i=0; i<n; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j=0; j<n; j++){
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        visit = new boolean[n];
+        for(int i=0; i<n; i++){ // 행 체크
+            ArrayList<Integer> list = new ArrayList<>();
+            for(int j=0; j<n; j++){
+                list.add(arr[i][j]);
+            }
+            check_same(list, i);
+            if (!visit[i] && check_ladder(list)) {
+                count++;
+            }
+        }
+
+        visit = new boolean[n];
+        for(int i=0; i<n; i++){ // 열 체크
+            ArrayList<Integer> list = new ArrayList<>();
+            for(int j=0; j<n; j++){
+                list.add(arr[j][i]);
+            }
+
+            check_same(list, i);
+            boolean check = false;
+            if(!visit[i]) {
+                check = check_ladder(list);
+            }
+            if (!visit[i] && check_ladder(list)) {
+                count++;
+            }
+        }
+        System.out.println(count);
+    }
+    private static boolean check_ladder(ArrayList<Integer> list) {
+        boolean[] visited = new boolean[n];
+
+        for (int i = 0; i < n - 1; i++) {
+            int cur = list.get(i);
+            int next = list.get(i + 1);
+
+            if (cur == next) continue;
+
+            if (Math.abs(cur - next) > 1) return false;
+
+            // 내리막
+            if (cur - next == 1) {
+                for (int j = 1; j <= l; j++) {
+                    int idx = i + j;
+                    if (idx >= n) return false;
+                    if (list.get(idx) != next) return false;
+                    if (visited[idx]) return false;
+                }
+                for (int j = 1; j <= l; j++) {
+                    visited[i + j] = true;
+                }
+            }
+            // 오르막
+            else if (next - cur == 1) {
+                for (int j = 0; j < l; j++) {
+                    int idx = i - j;
+                    if (idx < 0) return false;
+                    if (list.get(idx) != cur) return false;
+                    if (visited[idx]) return false;
+                }
+                for (int j = 0; j < l; j++) {
+                    visited[i - j] = true;
+                }
+            }
+        }
+        return true;
+    }
+    private static void check_same(ArrayList<Integer> list, int k){
+        int temp =0;
+        for(int i=0; i<n-1; i++){
+            if(list.get(i) == list.get(i+1)){
+                temp++;
+            }
+        }
+        if(temp == n-1){
+            count++;
+            visit[k] = true;
+        }
+    }
+}
