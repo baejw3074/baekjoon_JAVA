@@ -1,0 +1,38 @@
+import java.util.*;
+import java.io.*;
+class Pos{
+    long x;
+    long y;
+    public Pos(long x, long y){
+        this.x=x;
+        this.y=y;
+    }
+}
+public class Main{
+    static int n;
+    static ArrayList<Pos> list = new ArrayList<>();
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        for(int i=0; i<n; i++){
+            long x = sc.nextInt();
+            long y = sc.nextInt();
+
+            list.add(new Pos(x, y));
+        }
+
+        long result_a=0;
+        long result_b=0;
+        for(int i=0; i<n; i++){
+            Pos a = list.get(i);
+            Pos b = list.get((i+1)%n);
+
+            result_a += a.x*b.y;
+            result_b += a.y*b.x;
+        }
+
+        double result = Math.abs(result_a - result_b)/2.0;
+        System.out.printf("%.1f\n", result);
+    }
+}
