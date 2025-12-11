@@ -8,7 +8,7 @@ class Pos{
         this.y=y;
     }
 }
-public class Main{
+public class Main{ // 신발끈 공식
     static int n;
     static ArrayList<Pos> list = new ArrayList<>();
     public static void main(String[] args){
@@ -36,3 +36,50 @@ public class Main{
         System.out.printf("%.1f\n", result);
     }
 }
+
+
+
+import java.util.*;
+import java.io.*;
+class Pos{
+    long x;
+    long y;
+    public Pos(long x, long y){
+        this.x=x;
+        this.y=y;
+    }
+}
+public class Main{ // 삼각형 분할법
+    static int n;
+    static ArrayList<Pos> list = new ArrayList<>();
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        long point_x = 0;
+        long point_y = 0;
+        for(int i=0; i<n; i++){
+            if(i == 0){
+                point_x = sc.nextInt();
+                point_y = sc.nextInt();
+            }
+            else{
+                long x = sc.nextInt();
+                long y = sc.nextInt();
+
+                list.add(new Pos(x, y));
+            }
+        }
+        double result = 0;
+        for(int i=0; i<list.size()-1; i++){
+            long x = list.get(i).x;
+            long y = list.get(i).y;
+
+            long nx = list.get(i+1).x;
+            long ny = list.get(i+1).y;
+            result += (x - point_x)*(ny-point_y) - (nx - point_x)*(y - point_y);
+        }
+        result = 0.5*Math.abs(result);
+        System.out.printf("%.1f\n", result);
+    }
+}
+
