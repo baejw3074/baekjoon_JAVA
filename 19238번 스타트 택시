@@ -1,0 +1,182 @@
+import java.util.*;
+import java.io.*;
+
+class Pos implements Comparable<Pos>{
+    int x, y, dis, num;
+    public Pos(int x, int y, int dis, int num){
+        this.x = x;
+        this.y = y;
+        this.dis = dis;
+        this.num = num;
+    }
+    @Override
+    public int compareTo(Pos o){
+        if(this.dis == o.dis){
+            if(this.x == o.x) return this.y - o.y;
+            return this.x - o.x;
+        }
+        return this.dis - o.dis;
+    }
+}
+
+class Moving{
+    int x, y, dis;
+    public Moving(int x, int y, int dis){
+        this.x = x;
+        this.y = y;
+        this.dis = dis;
+    }
+}
+
+public class Main{
+    static int n, m, fuel;
+    static int[][] arr;
+    static boolean[][] visit;
+    static int taxi_x, taxi_y;
+
+    static PriorityQueue<Pos> passenger = new PriorityQueue<>();
+
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+
+    // 목적지 저장
+    static int[][] dest;
+
+    public static void main(String[] args)throws Exception{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        fuel = Integer.parseInt(st.nextToken());
+
+        arr = new int[n][n];
+        dest = new int[m + 2][2];
+
+        for(int i = 0; i < n; i++){
+            st = new StringTokenizer(br.readLine());
+            for(int j = 0; j < n; j++){
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+
+        st = new StringTokenizer(br.readLine());
+        taxi_x = Integer.parseInt(st.nextToken()) - 1;
+        taxi_y = Integer.parseInt(st.nextToken()) - 1;
+
+        for(int i = 0; i < m; i++){
+            st = new StringTokenizer(br.readLine());
+            int sx = Integer.parseInt(st.nextToken()) - 1;
+            int sy = Integer.parseInt(st.nextToken()) - 1;
+            int ex = Integer.parseInt(st.nextToken()) - 1;
+            int ey = Integer.parseInt(st.nextToken()) - 1;
+
+            arr[sx][sy] = i + 2;
+            dest[i + 2][0] = ex;
+            dest[i + 2][1] = ey;
+        }
+
+        for(int i = 0; i < m; i++){
+            searchPassenger();
+            if(passenger.isEmpty()){
+                System.out.println(-1);
+                return;
+            }
+
+            Pos cur = passenger.poll();
+            passenger.clear();
+
+            fuel -= cur.dis;
+            if(fuel < 0){
+                System.out.println(-1);
+                return;
+            }
+
+            int moveDist = drive(cur);
+            if(moveDist == -1){
+                System.out.println(-1);
+                return;
+            }
+
+            fuel -= moveDist;
+            if(fuel < 0){
+                System.out.println(-1);
+                return;
+            }
+
+            fuel += moveDist * 2;
+        }
+
+        System.out.println(fuel);
+    }
+
+    // 승객 찾기 (최단 거리까지만 BFS)
+    private static void searchPassenger(){
+        visit = new boolean[n][n];
+        Queue<Moving> q = new LinkedList<>();
+
+        q.add(new Moving(taxi_x, taxi_y, 0));
+        visit[taxi_x][taxi_y] = true;
+
+        int minDist = Integer.MAX_VALUE;
+
+        while(!q.isEmpty()){
+            Moving cur = q.poll();
+
+            if(cur.dis > minDist) break;
+
+            if(arr[cur.x][cur.y] >= 2){
+                passenger.add(new Pos(cur.x, cur.y, cur.dis, arr[cur.x][cur.y]));
+                minDist = cur.dis;
+            }
+
+            for(int i = 0; i < 4; i++){
+                int nx = cur.x + dx[i];
+                int ny = cur.y + dy[i];
+
+                if(nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                if(visit[nx][ny] || arr[nx][ny] == 1) continue;
+
+                visit[nx][ny] = true;
+                q.add(new Moving(nx, ny, cur.dis + 1));
+            }
+        }
+    }
+
+    // 목적지 이동
+    private static int drive(Pos cur){
+        visit = new boolean[n][n];
+        Queue<Moving> q = new LinkedList<>();
+
+        int tx = dest[cur.num][0];
+        int ty = dest[cur.num][1];
+
+        q.add(new Moving(cur.x, cur.y, 0));
+        visit[cur.x][cur.y] = true;
+
+        arr[cur.x][cur.y] = 0;
+
+        while(!q.isEmpty()){
+            Moving now = q.poll();
+
+            if(now.x == tx && now.y == ty){
+                taxi_x = tx;
+                taxi_y = ty;
+                return now.dis;
+            }
+
+            for(int i = 0; i < 4; i++){
+                int nx = now.x + dx[i];
+                int ny = now.y + dy[i];
+
+                if(nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+                if(visit[nx][ny] || arr[nx][ny] == 1) continue;
+
+                visit[nx][ny] = true;
+                q.add(new Moving(nx, ny, now.dis + 1));
+            }
+        }
+
+        return -1;
+    }
+}
