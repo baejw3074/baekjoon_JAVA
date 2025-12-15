@@ -1,0 +1,130 @@
+import java.util.*;
+import java.io.*;
+
+class Fire {
+    int x, y, amount, dir, speed;
+    public Fire(int x, int y, int amount, int dir, int speed){
+        this.x = x;
+        this.y = y;
+        this.amount = amount;
+        this.dir = dir;
+        this.speed = speed;
+    }
+}
+
+class Fireball {
+    int amount, dir, speed;
+    public Fireball(int amount, int dir, int speed){
+        this.amount = amount;
+        this.dir = dir;
+        this.speed = speed;
+    }
+}
+
+class Pos {
+    int x, y;
+    public Pos(int x, int y){
+        this.x = x;
+        this.y = y;
+    }
+
+    
+    @Override
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Pos pos = (Pos)o;
+        return x == pos.x && y == pos.y;
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(x, y);
+    }
+}
+
+public class Main {
+    static int n, m, k;
+    static ArrayList<Fire> shark = new ArrayList<>();
+    static HashMap<Pos, ArrayList<Fireball>> map = new HashMap<>();
+
+    static int[] dx = {-1,-1,0,1,1,1,0,-1};
+    static int[] dy = {0,1,1,1,0,-1,-1,-1};
+
+    public static void main(String[] args)throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+
+        for(int i=0;i<m;i++){
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken()) - 1;
+            int y = Integer.parseInt(st.nextToken()) - 1;
+            int amount = Integer.parseInt(st.nextToken());
+            int speed = Integer.parseInt(st.nextToken());
+            int dir = Integer.parseInt(st.nextToken());
+            shark.add(new Fire(x, y, amount, dir, speed));
+        }
+
+        for(int i=0;i<k;i++){
+            moving();
+
+            for(Pos key : map.keySet()){
+                ArrayList<Fireball> list = map.get(key);
+
+                if(list.size() == 1){
+                    Fireball f = list.get(0);
+                    shark.add(new Fire(key.x, key.y, f.amount, f.dir, f.speed));
+                } else {
+                    int sumAmount = 0, sumSpeed = 0;
+                    int even = 0, odd = 0;
+
+                    for(Fireball f : list){
+                        sumAmount += f.amount;
+                        sumSpeed += f.speed;
+                        if(f.dir % 2 == 0) even++;
+                        else odd++;
+                    }
+
+                    int newAmount = sumAmount / 5;
+                    if(newAmount == 0) continue;
+
+                    int newSpeed = sumSpeed / list.size();
+                    int[] dirs = (even == 0 || odd == 0)
+                            ? new int[]{0,2,4,6}
+                            : new int[]{1,3,5,7};
+
+                    for(int d : dirs){
+                        shark.add(new Fire(key.x, key.y, newAmount, d, newSpeed));
+                    }
+                }
+            }
+
+            
+            map.clear();
+        }
+
+        int result = 0;
+        for(Fire f : shark){
+            result += f.amount;
+        }
+        System.out.println(result);
+    }
+
+    private static void moving(){
+        int size = shark.size();
+        for(int i=0;i<size;i++){
+            Fire cur = shark.remove(0);
+
+            int nx = ((cur.x + dx[cur.dir] * cur.speed) % n + n) % n;
+            int ny = ((cur.y + dy[cur.dir] * cur.speed) % n + n) % n;
+
+            Pos key = new Pos(nx, ny);
+            map.computeIfAbsent(key, k -> new ArrayList<>())
+               .add(new Fireball(cur.amount, cur.dir, cur.speed));
+        }
+    }
+}
