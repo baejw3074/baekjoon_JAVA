@@ -43,7 +43,7 @@ class Pos {
     }
 }
 
-public class Main {
+public class Main { // map 사용
     static int n, m, k;
     static ArrayList<Fire> shark = new ArrayList<>();
     static HashMap<Pos, ArrayList<Fireball>> map = new HashMap<>();
@@ -126,5 +126,122 @@ public class Main {
             map.computeIfAbsent(key, k -> new ArrayList<>())
                .add(new Fireball(cur.amount, cur.dir, cur.speed));
         }
+    }
+}
+
+
+//------------------------------------------------------------------------
+import java.util.*;
+import java.io.*;
+class Fire{
+    int x, y, amount, speed, dir;
+    public Fire(int x, int y, int amount, int speed, int dir){
+        this.x=x;
+        this.y=y;
+        this.amount = amount;
+        this.speed=speed;
+        this.dir = dir;
+    }
+}
+
+class Fireball{
+    int amount, speed, dir;
+    public Fireball(int amount, int speed, int dir){
+        this.amount = amount;
+        this.speed = speed;
+        this.dir = dir;
+    }
+}
+
+public class Main{ // 단순한 2차원 배열 사용
+    static int n, m, k;
+    static ArrayList<Fireball>[][] arr;
+    static int[] dx = {-1, -1, 0, 1, 1, 1, 0, -1};
+    static int[] dy = {0, 1, 1, 1, 0, -1, -1, -1};
+    static ArrayList<Fire> ball = new ArrayList<>();
+    public static void main(String[] args)throws IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+
+        arr = new ArrayList[n][n];
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                arr[i][j] = new ArrayList<>();
+            }
+        }
+
+        for(int i=0; i<m; i++){
+            st = new StringTokenizer(br.readLine());
+            int x = Integer.parseInt(st.nextToken())-1;
+            int y = Integer.parseInt(st.nextToken())-1;
+            int amount = Integer.parseInt(st.nextToken());
+            int speed = Integer.parseInt(st.nextToken());
+            int dir = Integer.parseInt(st.nextToken());
+            ball.add(new Fire(x, y, amount, speed, dir));
+        }
+
+        for(int i=0; i<k; i++){
+            moving();
+            merging();
+        }
+        int result = 0;
+        for(int i=0; i<ball.size(); i++){
+            Fire f = ball.get(i);
+            result += f.amount;
+        }
+        System.out.println(result);
+    }
+    private static void merging(){
+        for(int i=0; i<n; i++){
+            for(int j=0; j<n; j++){
+                if(arr[i][j].size() >0){
+                    if(arr[i][j].size() == 1){
+                        Fireball f = arr[i][j].get(0);
+                        ball.add(new Fire(i, j, f.amount, f.speed, f.dir));
+                    }
+                    else{
+                        int even = 0;
+                        int odd = 0;
+                        int sumAmount = 0;
+                        int sumSpeed=0;
+                        for(int a=0; a<arr[i][j].size(); a++){
+                            Fireball f = arr[i][j].get(a);
+                            if(f.dir % 2 == 0){
+                                even++;
+                            }
+                            else{
+                                odd++;
+                            }
+                            sumAmount += f.amount;
+                            sumSpeed += f.speed;
+                        }
+                        int newAmount = sumAmount/5;
+                        if(newAmount >0){
+                            int newSpeed = sumSpeed/arr[i][j].size();
+                            int[] dirs = (even == 0 || odd == 0) ? new int[]{0, 2, 4, 6} : new int[]{1, 3,5, 7};
+
+                            for(int a = 0; a<dirs.length; a++){
+                                ball.add(new Fire(i, j, newAmount, newSpeed, dirs[a]));
+                            }
+                        }
+                    }
+                    arr[i][j].clear();
+                }
+            }
+        }
+    }
+    private static void moving(){
+        for(int i=0; i<ball.size(); i++){
+            Fire cur = ball.get(i);
+            int move = cur.speed % n;
+            int nx = (cur.x + dx[cur.dir] * move + n) % n;
+            int ny = (cur.y + dy[cur.dir] * move + n) % n;
+
+            arr[nx][ny].add(new Fireball(cur.amount, cur.speed, cur.dir));
+        }
+        ball.clear();
     }
 }
