@@ -80,3 +80,77 @@ public class Main{
         }
     }
 }
+
+___________________________________________________________________________
+import java.util.*;
+import java.io.*;
+
+class Pos{
+    int x, y, count, crash;
+    public Pos(int x, int y, int count, int crash){
+        this.x=x;
+        this.y=y;
+        this.count=count;
+        this.crash = crash;
+    }
+}
+public class Main{
+    static int n,m;
+    static int[][] arr;
+    static boolean[][][] visit;
+    static int result = Integer.MAX_VALUE;
+    static int[] dx = {-1, 1, 0, 0};
+    static int[] dy = {0, 0, -1, 1};
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        arr = new int[n][m];
+        visit = new boolean[n][m][2];
+        for(int i=0; i<n; i++){
+            String str = sc.next();
+            for(int j=0; j<m; j++){
+                arr[i][j] = Integer.parseInt(str.substring(j, j+1));
+            }
+        }
+        bfs(0, 0, 0, 0);
+        if(result == Integer.MAX_VALUE){
+            System.out.println(-1);
+        }
+        else{
+            System.out.println(result+1);
+        }
+    }
+    private static void bfs(int x, int y, int count, int crash){
+        Queue<Pos> q = new LinkedList<>();
+        q.add(new Pos(x, y, count, crash));
+        visit[x][y][crash] = true;
+        while(!q.isEmpty()){
+            Pos cur = q.poll();
+            if(cur.x == n-1 && cur.y == m-1){
+                result = Math.min(result, cur.count);
+                return;
+            }
+            for(int i=0; i<4; i++){
+                int nx = cur.x + dx[i];
+                int ny = cur.y + dy[i];
+
+                if(nx < 0  || ny < 0 || nx >= n || ny >= m){
+                    continue;
+                }
+                if(arr[nx][ny] == 1){
+                    if(cur.crash == 0){
+                        q.add(new Pos(nx, ny, cur.count+1, 1));
+                        visit[nx][ny][1] = true;
+                    }
+                }
+                else{
+                    if(!visit[nx][ny][cur.crash]){
+                        q.add(new Pos(nx, ny, cur.count+1, cur.crash));
+                        visit[nx][ny][cur.crash] = true;
+                    }
+                }
+            }
+        }
+    }
+}
