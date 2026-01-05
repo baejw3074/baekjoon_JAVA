@@ -1,0 +1,32 @@
+import java.util.*;
+import java.io.*;
+
+public class Main{
+    public static void main(String[] args)throws  IOException{
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        int[] arr = new int[6];
+        for(int i=0; i<6; i++){
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        st = new StringTokenizer(br.readLine());
+        int t = Integer.parseInt(st.nextToken());
+        int  p = Integer.parseInt(st.nextToken());
+
+        int clothes = 0;
+        for(int i=0; i<6; i++){
+            if((arr[i] % t) == 0){
+                clothes += arr[i] / t;
+            }
+            else{
+                clothes += (arr[i]/t)+1;
+            }
+        }
+        int pen_group = n/p;
+        int pen = n%p;
+        System.out.println(clothes);
+        System.out.println(pen_group + " " + pen);
+    }
+}
