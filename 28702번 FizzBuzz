@@ -1,1 +1,34 @@
 
+import java.io.*;
+import java.util.*;
+
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        String[] arr = new String[3];
+        for(int i=0; i<3; i++){
+            String k = sc.next();
+            arr[i] = k;
+        }
+        int result = 0;
+        for(int i=0; i<3; i++){
+            if(arr[i].charAt(0) >= '0' && arr[i].charAt(0) <='9'){
+                int a = Integer.parseInt(arr[i]);
+                result = a + (3-i);
+                break;
+            }
+        }
+        if(result %3 == 0 && result %5 == 0){
+            System.out.println("FizzBuzz");
+        }
+        else if(result % 3 == 0 && result %5 !=0){
+            System.out.println("Fizz");
+        }
+        else if(result %3!=0 && result %5==0){
+            System.out.println("Buzz");
+        }
+        else{
+            System.out.println(result);
+        }
+    }
+}
