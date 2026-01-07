@@ -1,0 +1,29 @@
+import java.util.*;
+import java.io.*;
+public class Main{
+    static int result = 0;
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int a  = sc.nextInt();
+        int b = sc.nextInt();
+
+        solve(a, b);
+        int answer_1 = result;
+        int answer_2 = (a / result) * (b/result) * result;
+        System.out.println(answer_1);
+        System.out.println(answer_2);
+    }
+    private static void solve(int a, int b){
+         if(a > b){
+            int temp = a;
+            a = b;
+            b = temp;
+        }
+        int temp = b % a;
+         if(temp == 0){
+             result = a;
+             return;
+         }
+         solve(a, temp);
+    }
+}
