@@ -1,0 +1,47 @@
+import java.util.*;
+import java.io.*;
+public class Main{
+    public static void main(String[] args){
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for(int i=0; i<n; i++){
+            arr[i] = sc.nextInt();
+        }
+        Arrays.sort(arr);
+        int sum = 0;
+        for(int i=0; i<n; i++){
+            sum += arr[i];
+        }
+        float result = (float)sum/n;
+        int temp = Math.round(result);
+        System.out.println(temp);
+
+        temp = n/2;
+        System.out.println(arr[temp]);
+
+        int[] mode = new int[8001];
+        for(int i=0; i<n; i++){
+            mode[arr[i]+4000]++;
+        }
+        int max = 0;
+        for(int i=0; i<8001; i++){
+            if(mode[i]>max){
+                max = mode[i];
+            }
+        }
+        ArrayList<Integer> list = new ArrayList<>();
+        for(int i=0; i<8001; i++){
+            if(mode[i] == max){
+                list.add(i);
+            }
+        }
+        if(list.size()==1){
+            System.out.println(list.get(0)-4000);
+        }
+        else{
+            System.out.println(list.get(1) - 4000);
+        }
+        System.out.println(arr[n-1] - arr[0]);
+    }
+}
